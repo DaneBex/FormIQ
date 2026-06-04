@@ -101,7 +101,13 @@ The `--legacy-peer-deps` flag is required. `@supabase/supabase-js` pulls in `rea
 
 ### 2. Create environment variables
 
-Create a file named `.env.local` in the project root:
+Copy the example file and fill in your values:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Then open `.env.local` and add your keys:
 
 ```
 ANTHROPIC_API_KEY=sk-ant-...
@@ -109,6 +115,8 @@ SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=eyJ...
 REVENUECAT_IOS_API_KEY=appl_...
 ```
+
+Expo CLI automatically loads `.env.local` before the build. The included `app.config.js` passes these values into the app via `Constants.expoConfig.extra`. Never commit `.env.local` — it is gitignored.
 
 ### 3. Install iOS native dependencies
 
