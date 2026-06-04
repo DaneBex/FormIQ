@@ -1,7 +1,48 @@
 {
   "expo": {
-    "name": "salesforce-check",
-    "slug": "salesforce-check",
-    "version": "1.0.0"
+    "name": "FormIQ",
+    "slug": "formiq",
+    "version": "1.0.0",
+    "scheme": "formiq",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.formiq.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "FormIQ uses the camera to analyze your exercise form.",
+        "NSMicrophoneUsageDescription": "FormIQ uses the microphone during video recording.",
+        "NSPhotoLibraryUsageDescription": "FormIQ saves workout recordings to your photo library."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.formiq.app",
+      "permissions": ["CAMERA", "RECORD_AUDIO"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen",
+      "expo-video",
+      "expo-sqlite",
+      "expo-image",
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "FormIQ needs camera access to analyze your exercise form."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
