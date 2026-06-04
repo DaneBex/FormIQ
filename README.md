@@ -221,6 +221,9 @@ Check that camera permission is granted: Settings → FormIQ → Camera.
 **Rep counter never increments**
 The pose engine must finish loading before inference starts. Watch the console for TF.js initialisation logs. If you see `[Video]` error logs, the recorder failed to start — check that microphone permission is granted.
 
+**`pod install` fails with `Unable to find a specification for 'NitroModules'`**
+`react-native-vision-camera` v5 requires `react-native-nitro-modules` and `react-native-nitro-image`. Run `npm install --legacy-peer-deps` from the project root, then retry `pod install`. If it still fails, run `pod install --repo-update` to refresh the CocoaPods spec repo.
+
 **`pod install` fails with `failed to validate worklets version`**
 `react-native-reanimated` v4 requires `react-native-worklets@0.9.x` (note: not `react-native-worklets-core` — different package). Run `npm install --legacy-peer-deps` from the project root, then retry `pod install`.
 

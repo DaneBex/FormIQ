@@ -34,6 +34,8 @@
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",
     "react-native-svg": "^15.15.5",
+    "react-native-nitro-image": "*",
+    "react-native-nitro-modules": "*",
     "react-native-vision-camera": "^5.0.11",
     "zod": "^4.4.3",
     "zustand": "^5.0.14"
