@@ -4,6 +4,24 @@
 
 ---
 
+## ⚠️ BEFORE SHIPPING TO PRODUCTION
+
+The RevenueCat paywall is currently **bypassed** for development. In `app/_layout.tsx`, `isSubscribed` is hardcoded to `true`. This means **anyone can use the app for free without a subscription**.
+
+Before releasing to the App Store you MUST revert this:
+
+```typescript
+// REMOVE this line in app/_layout.tsx:
+const isSubscribed = true;
+
+// AND rename this back:
+const { isSubscribed: _isSubscribed } = useSubscription();
+// back to:
+const { isSubscribed } = useSubscription();
+```
+
+---
+
 ## What This App Does
 
 iOS-first React Native app. Phone camera + on-device AI tracks exercise form in real time. Counts reps, scores form, overlays a skeleton on live camera and video playback, delivers clinical AI coaching after each set via Claude API. Requires an account and active subscription to use anything.

@@ -8,7 +8,9 @@ export default function RootLayout() {
   const router = useRouter();
   const segments = useSegments();
   const user = useUserStore((s) => s.user);
-  const { isSubscribed } = useSubscription();
+  // TODO: REMOVE BEFORE PRODUCTION — paywall bypassed for development
+  const { isSubscribed: _isSubscribed } = useSubscription();
+  const isSubscribed = true;
 
   useEffect(() => {
     const inAuth = segments[0] === '(auth)';

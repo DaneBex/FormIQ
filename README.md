@@ -12,10 +12,10 @@ Before you start, make sure you have the following installed:
 
 | Tool | Version | Notes |
 |---|---|---|
-| macOS | 13+ | Required for iOS builds |
+| macOS | 13+ (Ventura or later, including Sequoia and Tahoe) | Required for iOS builds |
 | Node.js | 18+ | |
 | npm | 9+ | |
-| Xcode | 15+ | Install from the Mac App Store |
+| Xcode | 15+ | Install from the Mac App Store or developer.apple.com |
 | Xcode Command Line Tools | latest | `xcode-select --install` |
 | CocoaPods | 1.14+ | `sudo gem install cocoapods` |
 | Ruby | 3.1+ | CocoaPods requires a recent Ruby |
