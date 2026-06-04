@@ -120,17 +120,13 @@ Expo CLI automatically loads `.env.local` before the build. The included `app.co
 
 ### 3. Install iOS native dependencies
 
+**Important:** `npm install` in step 1 must complete before running this. CocoaPods runs a Node script during install to find Expo's native modules — if `node_modules` doesn't exist yet it will fail with `cannot find module 'expo/package.json'`.
+
+From the **project root** (not the ios folder):
+
 ```bash
 cd ios
 pod install
-cd ..
-```
-
-If CocoaPods fails, try:
-
-```bash
-cd ios
-bundle exec pod install
 cd ..
 ```
 
@@ -224,6 +220,9 @@ Check that camera permission is granted: Settings → FormIQ → Camera.
 
 **Rep counter never increments**
 The pose engine must finish loading before inference starts. Watch the console for TF.js initialisation logs. If you see `[Video]` error logs, the recorder failed to start — check that microphone permission is granted.
+
+**`pod install` fails with `failed to validate worklets version`**
+`react-native-reanimated` v4 requires `react-native-worklets@0.9.x` (note: not `react-native-worklets-core` — different package). Run `npm install --legacy-peer-deps` from the project root, then retry `pod install`.
 
 **`npm install` fails with peer dependency errors**
 Always use `npm install --legacy-peer-deps`. Do not omit this flag.
