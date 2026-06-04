@@ -221,6 +221,9 @@ Check that camera permission is granted: Settings → FormIQ → Camera.
 **Rep counter never increments**
 The pose engine must finish loading before inference starts. Watch the console for TF.js initialisation logs. If you see `[Video]` error logs, the recorder failed to start — check that microphone permission is granted.
 
+**`npx expo run:ios` fails with `PluginError: Cannot use import statement outside a module` for VisionCamera**
+VisionCamera v5 doesn't ship an `app.plugin.js` file. The plugin entry has been removed from `app.json` — camera permissions are declared directly in the `infoPlist` block instead. If you see this error, make sure `react-native-vision-camera` is not listed in the `plugins` array in `app.json`.
+
 **`pod install` fails with `Unable to find a specification for 'NitroModules'`**
 `react-native-vision-camera` v5 requires `react-native-nitro-modules` and `react-native-nitro-image`. Run `npm install --legacy-peer-deps` from the project root, then retry `pod install`. If it still fails, run `pod install --repo-update` to refresh the CocoaPods spec repo.
 

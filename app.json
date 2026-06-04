@@ -33,13 +33,7 @@
       "expo-splash-screen",
       "expo-video",
       "expo-sqlite",
-      "expo-image",
-      [
-        "react-native-vision-camera",
-        {
-          "cameraPermissionText": "FormIQ needs camera access to analyze your exercise form."
-        }
-      ]
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true
