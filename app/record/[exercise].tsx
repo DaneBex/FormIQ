@@ -11,6 +11,7 @@ import * as Crypto from 'expo-crypto';
 import { SkeletonCanvas } from '@/overlay/SkeletonCanvas';
 import { useRecordingStore } from '@/store/recordingStore';
 import { getExerciseConfig } from '@/analysis/ExerciseRegistry';
+import { initPoseEngine } from '@/pose/PoseEngine';
 import { RepCounter } from '@/analysis/RepCounter';
 import { FormAnalyzer } from '@/analysis/FormAnalyzer';
 import { savePoseFrames } from '@/storage/PoseFrameRepository';
@@ -38,11 +39,13 @@ export default function LiveRecordingScreen() {
 
   const recorderRef = useRef<Recorder | null>(null);
   const onVideoFinishedRef = useRef<((path: string | null) => void) | null>(null);
+  const frameDimsRef = useRef({ width: 1080, height: 1920 });
 
   const videoOutput = useVideoOutput({});
 
   useEffect(() => {
     if (!config) return;
+    initPoseEngine().catch(() => {});
     const sessionId = Crypto.randomUUID();
     repCounterRef.current = new RepCounter(config.stateThresholds);
     formAnalyzerRef.current = new FormAnalyzer(config);
@@ -83,6 +86,7 @@ export default function LiveRecordingScreen() {
 
   const onPose = useCallback((pose: PoseFrame) => {
     if (!repCounterRef.current || !formAnalyzerRef.current || !config) return;
+    frameDimsRef.current = { width: pose.frameWidth, height: pose.frameHeight };
     store.setKeypoints(pose.keypoints);
     store.pushFrame(pose);
     const phase = repCounterRef.current.update(
@@ -170,6 +174,7 @@ export default function LiveRecordingScreen() {
         style={StyleSheet.absoluteFill}
         device={device}
         isActive={cameraActive}
+        zoom={device.minZoom}
         outputs={[frameOutput, videoOutput]}
       />
 
@@ -177,8 +182,8 @@ export default function LiveRecordingScreen() {
         <SkeletonCanvas
           keypoints={store.currentKeypoints}
           displayRect={displayRect}
-          frameWidth={1080}
-          frameHeight={1920}
+          frameWidth={frameDimsRef.current.width}
+          frameHeight={frameDimsRef.current.height}
         />
       )}
 

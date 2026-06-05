@@ -37,10 +37,11 @@ export function usePoseFrameProcessor(
         frame.dispose();
         return;
       }
-      const buffer = frame.getPixelBuffer();
+      const rawBuffer = frame.getPixelBuffer();
       const width = frame.width;
       const height = frame.height;
       const timestamp = frame.timestamp;
+      const buffer = rawBuffer.slice(0);
       frame.dispose();
       runOnJS(handleFrameOnJS)(buffer, width, height, timestamp);
     },

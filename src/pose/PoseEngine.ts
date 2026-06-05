@@ -66,16 +66,20 @@ export async function detectPoseFromBuffer(
 ): Promise<PoseFrame | null> {
   if (!detector) return null;
 
-  const imageTensor = tf.tensor3d(
-    new Uint8Array(buffer),
-    [frameHeight, frameWidth, 3],
-    'int32',
-  );
+  if (!buffer || buffer.byteLength === 0) return null;
 
+  let imageTensor: tf.Tensor3D | null = null;
   try {
+    imageTensor = tf.tensor3d(
+      new Uint8Array(buffer),
+      [frameHeight, frameWidth, 3],
+      'int32',
+    );
     return await detectPose(imageTensor, timestamp, frameCounter++, frameWidth, frameHeight);
+  } catch {
+    return null;
   } finally {
-    imageTensor.dispose();
+    imageTensor?.dispose();
   }
 }
 

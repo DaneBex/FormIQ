@@ -1,13 +1,16 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Camera } from 'react-native-vision-camera';
 import { usePoseFrameProcessor } from '@/camera/usePoseFrameProcessor';
-import type { PoseFrame } from '@/pose/PoseTypes';
+import type { PoseFrame, Keypoint } from '@/pose/PoseTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCamera } from '@/camera/useCamera';
 import { getExerciseConfig } from '@/analysis/ExerciseRegistry';
 import { initPoseEngine } from '@/pose/PoseEngine';
+import { SkeletonCanvas } from '@/overlay/SkeletonCanvas';
+
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 
 const CONFIDENCE_THRESHOLD = 0.5;
 const REQUIRED_CONSECUTIVE_FRAMES = 10;
@@ -20,6 +23,8 @@ export default function CameraPositionScreen() {
   const [engineReady, setEngineReady] = useState(false);
   const [confidenceFrames, setConfidenceFrames] = useState(0);
   const consecutiveRef = useRef(0);
+  const [liveKeypoints, setLiveKeypoints] = useState<Keypoint[]>([]);
+  const frameDimsRef = useRef({ width: 1080, height: 1920 });
 
   useEffect(() => {
     if (!hasPermission) requestPermission();
@@ -30,6 +35,8 @@ export default function CameraPositionScreen() {
 
   const onPose = useCallback((pose: PoseFrame) => {
     if (!config) return;
+    setLiveKeypoints(pose.keypoints);
+    frameDimsRef.current = { width: pose.frameWidth, height: pose.frameHeight };
     const allConfident = config.requiredKeypoints.every(
       (kp) => (pose.keypoints[kp]?.score ?? 0) >= CONFIDENCE_THRESHOLD,
     );
@@ -53,7 +60,17 @@ export default function CameraPositionScreen() {
           style={StyleSheet.absoluteFill}
           device={device}
           isActive={true}
+          zoom={device.minZoom}
           outputs={[frameOutput]}
+        />
+      )}
+
+      {liveKeypoints.length > 0 && (
+        <SkeletonCanvas
+          keypoints={liveKeypoints}
+          displayRect={{ x: 0, y: 0, width: SCREEN_W, height: SCREEN_H }}
+          frameWidth={frameDimsRef.current.width}
+          frameHeight={frameDimsRef.current.height}
         />
       )}
 
