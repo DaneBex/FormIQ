@@ -45,7 +45,9 @@ export default function LiveRecordingScreen() {
 
   useEffect(() => {
     if (!config) return;
-    initPoseEngine().catch(() => {});
+    initPoseEngine().catch((err) => {
+      console.error('[PoseEngine] Failed to initialize:', err);
+    });
     const sessionId = Crypto.randomUUID();
     repCounterRef.current = new RepCounter(config.stateThresholds);
     formAnalyzerRef.current = new FormAnalyzer(config);
