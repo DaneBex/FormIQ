@@ -26,6 +26,10 @@
 	<string>12.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>FormIQ uses the camera to record your exercise form for real-time pose analysis.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>FormIQ accesses the microphone as part of video recording during exercise sessions.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
