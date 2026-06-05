@@ -48,7 +48,7 @@ export default function CameraPositionScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {device && (
+      {device && hasPermission && (
         <Camera
           style={StyleSheet.absoluteFill}
           device={device}
